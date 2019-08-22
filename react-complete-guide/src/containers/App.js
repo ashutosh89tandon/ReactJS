@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from './Person/Person.js';
+import Persons from '../components/Persons/Persons';
+import CockPit from '../components/CockPit/CockPit';
 import Radium from 'radium';
 
 class App extends Component{
@@ -63,57 +64,38 @@ class App extends Component{
 	
 	render(){
 
-		const style={
-			backgroundColor : 'green',
-			color : "white",
-			font : 'inherit',
-			border : '1px solid blue',
-			padding : '8px',
-			cursor : 'pointer',
-			':hover':{
-				backgroundColor: 'lightgreen',
-				color : 'black'
-			}
-
-		};
-
-		let person=null;
+		let persons=null;
 		if(this.state.show)
 		{
 			/*person=(<Person name={this.state.persons[0].name} age={this.state.persons[0].age} click={()=>this.callEvent('Maxi')} 
      	  change = {this.nameCallEvent}>My hobby is cricket!!</Person>);*/
-     	 style.backgroundColor="red";
-     	 style[':hover']={
-				backgroundColor: 'salmon',
-				color : 'black'
-			}
-     	 person= this.state.persons.map((p,index) =>{
-     	 	return (
-     	 		<Person name={p.name} age={p.age} click={()=>this.callEvent('Maxi')} key={p.id} 
-     	  					change = {(event)=>this.nameCallEvent(event,p.id)} doubleClick={()=>this.deletePersonHandler(index)}>My hobby is cricket!!</Person>
-     	 		);
-     	  })
-		}
+     	 let personArray= [...this.state.persons];
+     	 personArray= personArray.map((p,index)=> {
+     	 		return {
+     	 			...p,
+     	 			nameEvent : this.nameCallEvent,
+     	 			callEvent : this.callEvent,
+     	 			deleteEvent :this.deletePersonHandler
+     	 		};
+     	 })
+     	 
+     	 persons = (<Persons persons = {personArray} key="1000"/>);
 
-	const personStyle=[];
-	if(this.state.persons.length ==1)
-	{
-		personStyle.push(classes.bold);
-		personStyle.push(classes.red);
-	}
+		}
     return (
       <div className={classes.App}>
-       <h1 className={personStyle.join(' ')}>Hi, I am here!!!</h1>
-       <button style={style} onClick={this.callEvent.bind(this,'Max')} key="1">Hit me</button><br/>
-       <button style={style} onClick={this.showCallEvent} key="2">Hit me to Hide or Show!</button>
+      <CockPit persons= {this.state.persons} callEvent={this.callEvent} showCallEvent={this.showCallEvent}
+          show={this.state.show}/>
        {
-       /*	this.state.show ?
+       
+     	  /*	
+     	  this.state.show ?
        		<Person name={this.state.persons[0].name} age={this.state.persons[0].age} click={()=>this.callEvent('Maxi')} 
      	  change = {this.nameCallEvent}>My hobby is cricket!!</Person>
-     	  : null*/
-
-       }
-       {person}
+     	  : null
+     	  */
+		  persons
+		}
        
       </div>
     );
