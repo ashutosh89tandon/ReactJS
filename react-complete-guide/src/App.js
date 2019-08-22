@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person.js';
 import Radium from 'radium';
 
@@ -98,11 +98,11 @@ class App extends Component{
 	const personStyle=[];
 	if(this.state.persons.length ==1)
 	{
-		personStyle.push('bold');
-		personStyle.push('red');
+		personStyle.push(classes.bold);
+		personStyle.push(classes.red);
 	}
     return (
-      <div className="App">
+      <div className={classes.App}>
        <h1 className={personStyle.join(' ')}>Hi, I am here!!!</h1>
        <button style={style} onClick={this.callEvent.bind(this,'Max')} key="1">Hit me</button><br/>
        <button style={style} onClick={this.showCallEvent} key="2">Hit me to Hide or Show!</button>
