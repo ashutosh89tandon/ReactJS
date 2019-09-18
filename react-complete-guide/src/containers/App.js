@@ -3,20 +3,45 @@ import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import CockPit from '../components/CockPit/CockPit';
 import Radium from 'radium';
+import Auxillary from '../components/hoc/Auxillary';
+import AuthContext from '../components/context/Context';
 
 class App extends Component{
 
+	constructor(props)
+	{
+		super(props);
+		console.log('Constructor');
+	}
 	state ={
 		persons : [
 		{
 			id: 1,
 			name : "Ashu",
-			age : 29
+			age : 1
 		}
 		],
-		show : true
+		show : true,
+		isAuthenticated :false
 		
 	};
+
+	static getDerivedStateFromProps(props, state)
+	{
+		console.log('getDerivedStateFromProps');
+		return state;
+	}
+
+	componentDidMount()
+	{
+		console.log('componentDidMount');
+	}
+
+	componentWillMount()
+	{
+		console.log('componentWillMount');
+	}
+
 
  callEvent=(newName)=>{
 		this.setState({
@@ -31,6 +56,13 @@ class App extends Component{
 	});
 	}
 
+	loginHandler = () =>{
+		console.log('Login button clicked!!');
+
+		const auth = !this.state.isAuthenticated;
+		console.log(auth);
+		this.setState({isAuthenticated : auth});
+	}
 	nameCallEvent=(event,id)=>{
 		const index= this.state.persons.findIndex(p=>{
 			return p.id==id;
@@ -64,6 +96,7 @@ class App extends Component{
 	
 	render(){
 
+		console.log('Render');
 		let persons=null;
 		if(this.state.show)
 		{
@@ -83,7 +116,8 @@ class App extends Component{
 
 		}
     return (
-      <div className={classes.App}>
+      <Auxillary classes={classes.App}>
+      <AuthContext.Provider value={{authenticated : this.state.isAuthenticated , login :  this.loginHandler }}>
       <CockPit persons= {this.state.persons} callEvent={this.callEvent} showCallEvent={this.showCallEvent}
           show={this.state.show}/>
        {
@@ -96,8 +130,8 @@ class App extends Component{
      	  */
 		  persons
 		}
-       
-      </div>
+       </AuthContext.Provider>
+      </Auxillary>
     );
     //return React.createElement('div',{className:'App'},React.createElement('h1',null,'Hi, I am here!!!'));
 }
