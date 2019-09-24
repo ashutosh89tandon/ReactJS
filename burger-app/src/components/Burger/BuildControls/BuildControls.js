@@ -17,7 +17,7 @@ const buildControls = (props)=>
 				return <BuildControl label = {v.label} type ={v.type} ingAdded={() => {props.added(v.type)}} 
 				ingRemoved={() => {props.removed(v.type)}}  disableInfo= {props.disableInfo[v.type]} />;
 			})}
-			<button className={classes.OrderButton} disabled={!props.purchasable}>ORDER NOW</button>
+			<button className={classes.OrderButton} disabled={!props.purchasable} onClick={props.ordered} >ORDER NOW</button>
 		</div>
 		);
 }
