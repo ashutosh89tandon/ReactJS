@@ -29,7 +29,12 @@ class BurgerBuilder extends React.Component
 
 	updatePurchasingStatus = ()=>{
 
-		this.setState({purchasing : !this.state.purchasing});
+		this.setState({purchasing : true});
+	};
+
+	removePurchasingStatus = ()=>{
+
+		this.setState({purchasing : false});
 	};
 
 	updatePurchasableStatus(ingredients)
@@ -85,7 +90,9 @@ class BurgerBuilder extends React.Component
 
 		return (
 		<Auxillary>
-			<Modal show = {this.state.purchasing}><OrderSummary ingredients={this.state.ingredients}/></Modal>
+			<Modal show = {this.state.purchasing} modalClosed={this.removePurchasingStatus} ><OrderSummary ingredients={this.state.ingredients}
+			 purchaseCanceled={this.removePurchasingStatus} price={this.state.totalPrice}
+			 /></Modal>
 			<Burger key="123" ingredients = { this.state.ingredients}/>
 			<BuildControls key="1234" price={this.state.totalPrice} 
 			 added={this.ingredientsAddHandler} 
